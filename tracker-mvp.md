@@ -1,30 +1,72 @@
-# Build #1 — Progress Tracker
+# Tracker — MVP Spec
 
-Companion to `weekend-batch-sheet.md`.
+## Stack
 
-## Decision (2026-09-02)
+| | |
+|---|---|
+| Framework | Vite + React |
+| Chart | Recharts |
+| Data | Google Sheet → published CSV |
+| Hosting | Vercel (free tier) |
+| Analytics | Vercel Web Analytics |
+| Email | Kit (free to 10k subscribers) |
 
-Build the free tracker now. Nothing paid. Only reason it's now: **data has to start accumulating.** Three months of weigh-ins is a story. One is nothing.
+No backend. No database. No auth.
 
-Building is not the bottleneck. Filming is. If code starts feeling more productive than filming, that's the warning sign.
+## Data source — published Sheet, not `data.json`
 
-## Scope — one weekend, hard stop
+Daily weigh-ins means ~365 entries a year. Typing JSON on a phone half-asleep is how you fat-finger a comma and break the build.
 
-Web app, never native. A URL works in every bio; an app store link doesn't.
+1. Sheet with three columns: `date`, `weight`, `moved`
+2. File → Share → Publish to web → CSV
+3. Fetch and parse that URL client-side
 
-**Stack:** Vite + React, `data.json` in the repo, Recharts, Vercel. No backend, no auth, no database.
+Morning routine: open Sheets, type a number in the next row. Sheets *is* the form.
 
-**Ship list:**
-1. `data.json` edited by hand — `{ date, weight, moved }`
-2. One chart + big current number + "pounds down since start"
-3. Rolling average line, `7-day` / `4-week` toggle
-4. CSV export button
-5. Analytics script tag
-6. Email form embed
+```
+date,weight,moved
+2026-09-06,480.0,true
+2026-09-07,479.2,true
+```
 
-**Update flow:** GitHub mobile app → edit `data.json` → commit → live in 40s. If it needs a laptop, weeks get skipped.
+**No entry form in the app.** A real one needs auth or anyone could edit your weight. That's the single biggest thing between one weekend and three.
 
-**Polish budget** goes on the big number, not the chart. That's what gets screenshotted.
+## Page layout, top to bottom
+
+1. **Intro paragraph** (see below)
+2. **STARTED / NOW / DOWN** — the shot
+3. **Chart**
+4. **`7-day` / `4-week` toggle**
+5. **CSV export**
+6. **Email form**
+7. **Links to all four platforms**
+
+## Intro copy
+
+> I'm a [age]-year-old web developer. I started at 480 pounds with type 2 diabetes. I'm logging every weigh-in here, publicly, so I can't quietly quit. No plan to sell you, no program, no advice — just the numbers as they happen.
+
+Goes above the numbers. Same sentence into `<title>` and `og:description` — links get pasted into DMs and currently preview as nothing.
+
+No mission statement. No "join my journey." Factual and slightly flat; the numbers are dramatic enough.
+
+## The three numbers
+
+```js
+const START_WEIGHT = 480;        // hardcoded — first logged entry is the day
+const current = avg.at(-1);      // rolling average, NOT last raw weigh-in
+const lost    = START_WEIGHT - current;
+```
+
+```
+STARTED        NOW          DOWN
+ 480.0        446.2         33.8
+```
+
+`NOW` biggest by a wide margin. Stack vertically on narrow screens.
+
+Add days elapsed: `(Date.now() - startDate) / 86400000 | 0`. "33.8 lbs in 84 days" is a story; "33.8" is a fact.
+
+**All design budget goes here, none on the chart.** This is what gets screenshotted and what a cold visitor sees first.
 
 ## Rolling average
 
@@ -36,75 +78,48 @@ const rolling = (data, n) =>
   });
 ```
 
-Toggle, not a setting. Average is the thick line; raw weight is faint dots behind it. The big on-screen number is the average, not the last weigh-in.
+`rolling(data, 7)` or `rolling(data, 4)`. One `useState` for `n`. Average is the thick line; raw weight is faint dots behind it.
 
-## Analytics
+## CSV export
 
-Vercel or Cloudflare Web Analytics. Cookie-free, no consent banner. Not Google.
+```js
+const csv = ['date,weight', ...data.map(d => `${d.date},${d.weight}`)].join('\n');
+const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+```
 
-Three numbers only: visits/day, source, returning visitors. Check weekly during the Sunday review, not daily.
+`<a href={url} download="weight.csv">`
 
-Tagged links so referrer data is usable: `?s=tt` `?s=ig` `?s=yt` `?s=fb`. This answers which platform is worth cross-posting to.
+## Data validation — not unit tests
 
-Page visits only. Never anyone's weight or behavior.
+The realistic failure is a typo in the Sheet, not a logic bug.
 
-## Email capture
+```js
+if (weight < 100 || weight > 700) console.warn('check that entry', d);
+```
 
-Collect day one. **Promise monthly, nothing more** — a newsletter habit is unbatched weekday work and will eat filming time. Never auto-send on video posts: followers already get notified, and 30 emails a month gets the list marked as spam.
+No test framework before launch. After it ships, one optional test on `rolling()` window edges — that's the only place a bug produces a plausible wrong number instead of a crash. No component tests, no CI, no coverage target.
 
-**Kit** (free to 10k subscribers — exactly the milestone where the list starts mattering). Embedded form. Addresses live on Kit's servers, not in the repo — that's what keeps this front-end only. Email address only, no name, no weight, no health questions. Privacy note linked nearby.
+## Build checklist
 
-Place under the chart. Copy: *"Get a monthly update: where the numbers are, and what I'm building next."*
+- [ ] Vite + React deployed to Vercel, GitHub connected (public repo, real README)
+- [ ] Sheet published as CSV, fetched and parsed
+- [ ] Intro paragraph + `<title>` + `og:description`
+- [ ] STARTED / NOW / DOWN block
+- [ ] Line chart
+- [ ] `7-day` / `4-week` toggle
+- [ ] CSV export button
+- [ ] Range warning on parse
+- [ ] Analytics script tag
+- [ ] Email form + privacy note
+- [ ] Platform links
+- [ ] Tagged links live: `?s=tt` `?s=ig` `?s=yt` `?s=fb`
 
-Expect 5–15 addresses in three months. That's correct, not failure.
+## Not in the MVP
 
-## Hard limits — every stage, free and paid
+Accounts · auth · backend · weight-entry form · payments · other users' data · goal weights · target ranges · **macros or calories** · glucose · medication · advice of any kind · unit tests · CI · design system
 
-- Logging and visualization only. No advice, no targets, no recommendations.
-- No glucose. No medication. No storing anyone else's health data.
-- Nothing requiring weekday attention.
-- Lawyer before the first dollar.
+Macros stays out permanently on the public page. It's a target by implication, it's the T2D line that goes to the doctor first, and a section that goes blank in week three is a visible failure on the page whose job is proving consistency.
 
-## Ruled out
+## Done means
 
-| | |
-|---|---|
-| Average weight for 6'0" | Tells a man he should be 175. Exact feature that made mainstream apps unusable at 480. A target is a target. |
-| Averages across users | Needs accounts + backend. Real idea, stage 3, lawyer attached. |
-| Gating the tracker behind email | It's the receipt, not a lead magnet. Gate a copy of the template instead. |
-
-Compare against **your own past**, never a population.
-
-## Content from it
-
-Screen-record as you go. Re-recording later never looks real.
-
-1. What I'm building and why — *before any code exists*
-2. Why every fitness app failed me at 480
-3. The chart rendering with real data
-4. Rolling average — "the scale said I gained 2 lbs, here's why that's garbage"
-5. CSV export — "try getting your data out of MyFitnessPal"
-
-## Promotion
-
-No launch day. At 102 followers a launch is a normal day where you feel disappointed.
-
-- **Now:** film clip 1 before the code exists
-- **Go-live Sunday:** link in all four bios
-- **Month 3:** the real moment — a curve that means something
-- **Best clip:** wait for someone to accuse you of faking it, answer with the URL
-
-Never "check out my tracker." Lead with the number, let the link be proof: *"Down 34 lbs. Built a page that logs it publicly — check my math."*
-
-## Roadmap
-
-1. **→ 10k:** free tracker, public, no accounts
-2. **10k–30k:** ask the list what breaks. Build nothing.
-3. **30k+, only if comments demand it:** paid version, one price, no free tier
-4. **After content income is stable:** anything with real support burden
-
-## Creep log
-
-Added after scope was set: rolling average, 7-day/4-week toggle, CSV export.
-
-All cheap. All individually reasonable. That's how one weekend becomes three. **Ship, then add.**
+Public URL, one weigh-in in it, link in all four bios. Ship, then add.
