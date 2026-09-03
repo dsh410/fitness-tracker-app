@@ -11,12 +11,18 @@ export const AGE: number | null = null;
 export const SHEET_CSV_URL =
   process.env.NEXT_PUBLIC_SHEET_CSV_URL || "/weigh-ins.csv";
 
-export const PLATFORM_LINKS = {
-  tt: process.env.NEXT_PUBLIC_TT_URL || "",
-  ig: process.env.NEXT_PUBLIC_IG_URL || "",
-  yt: process.env.NEXT_PUBLIC_YT_URL || "",
-  fb: process.env.NEXT_PUBLIC_FB_URL || "",
-};
+export const LINKS = [
+  { name: "TikTok", url: "https://www.tiktok.com/@demetrisjourneyofficial" },
+  {
+    name: "Instagram",
+    url: "https://www.instagram.com/demetrisjourneyofficial/",
+  },
+  { name: "YouTube", url: "https://www.youtube.com/@DemetrisJourneyOfficial" },
+  {
+    name: "Facebook",
+    url: "https://www.facebook.com/profile.php?id=61585575629325",
+  },
+];
 
 export function introCopy(age: number | null = AGE): string {
   const who =

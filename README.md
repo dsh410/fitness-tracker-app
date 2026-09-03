@@ -28,14 +28,12 @@ Open http://localhost:3000.
 
 ## Bio links
 
-Use tagged URLs so analytics can tell which platform sent the visit:
+The footer links are in `src/lib/config.ts` (`LINKS`). For bios, use tagged URLs so analytics can tell which platform sent the visit:
 
 - `https://YOUR-DOMAIN/?s=tt`
 - `https://YOUR-DOMAIN/?s=ig`
 - `https://YOUR-DOMAIN/?s=yt`
 - `https://YOUR-DOMAIN/?s=fb`
-
-Paste your profile URLs into `.env.local` (`NEXT_PUBLIC_TT_URL`, `IG`, `YT`, `FB`) for the links at the bottom of the page.
 
 ## Kit
 

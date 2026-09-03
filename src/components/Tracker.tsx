@@ -5,7 +5,7 @@ import { makeWeightCsvUrl } from "@/lib/csv";
 import {
   AGE,
   introCopy,
-  PLATFORM_LINKS,
+  LINKS,
   SHEET_CSV_URL,
   START_WEIGHT,
 } from "@/lib/config";
@@ -85,13 +85,6 @@ export default function Tracker() {
     setDays(daysElapsed(startDate, new Date()));
   }, [startDate]);
 
-  const platforms = [
-    { key: "tt", label: "TikTok", href: PLATFORM_LINKS.tt },
-    { key: "ig", label: "Instagram", href: PLATFORM_LINKS.ig },
-    { key: "yt", label: "YouTube", href: PLATFORM_LINKS.yt },
-    { key: "fb", label: "Facebook", href: PLATFORM_LINKS.fb },
-  ];
-
   return (
     <main className="page">
       <p className="intro">{introCopy(AGE)}</p>
@@ -149,17 +142,11 @@ export default function Tracker() {
       <SubscribeForm />
 
       <nav className="platforms" aria-label="Social">
-        {platforms.map((p) =>
-          p.href ? (
-            <a key={p.key} href={p.href} rel="noreferrer" target="_blank">
-              {p.label}
-            </a>
-          ) : (
-            <span key={p.key} className="platform-pending">
-              {p.label}
-            </span>
-          ),
-        )}
+        {LINKS.map((link) => (
+          <a key={link.name} href={link.url} rel="noreferrer" target="_blank">
+            {link.name}
+          </a>
+        ))}
       </nav>
     </main>
   );
