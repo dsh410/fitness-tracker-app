@@ -2,33 +2,32 @@
 
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import type { SourceTag } from "@/lib/source";
 
-type SubscribeFormProps = {
-  source: SourceTag | null;
-};
+// Kit form action from .env.local, e.g.
+// https://app.convertkit.com/forms/YOUR_FORM_ID/subscriptions
+const kitAction = process.env.NEXT_PUBLIC_KIT_FORM_ACTION;
 
-const action = process.env.NEXT_PUBLIC_NEWSLETTER_ACTION;
-
-export default function SubscribeForm({ source }: SubscribeFormProps) {
+export default function SubscribeForm() {
   const [status, setStatus] = useState<"idle" | "need-provider">("idle");
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
-    if (action) return;
+    if (kitAction) return;
     event.preventDefault();
     setStatus("need-provider");
   }
 
   return (
-    <section className="subscribe" aria-labelledby="subscribe-heading">
-      <h2 id="subscribe-heading">Get updates</h2>
-      <form action={action || undefined} method="post" onSubmit={onSubmit}>
-        {source ? <input type="hidden" name="s" value={source} /> : null}
-        <label htmlFor="email">Email</label>
+    <section className="subscribe" aria-labelledby="subscribe-copy">
+      <p id="subscribe-copy" className="subscribe-copy">
+        Get a monthly update: where the numbers are, and what I&apos;m building
+        next.
+      </p>
+      <form action={kitAction || undefined} method="post" onSubmit={onSubmit}>
+        <label htmlFor="email_address">Email</label>
         <div className="subscribe-row">
           <input
-            id="email"
-            name="email"
+            id="email_address"
+            name="email_address"
             type="email"
             autoComplete="email"
             required
@@ -39,7 +38,8 @@ export default function SubscribeForm({ source }: SubscribeFormProps) {
       </form>
       {status === "need-provider" ? (
         <p className="subscribe-note">
-          Add a Kit, Buttondown, or MailerLite form URL to connect this.
+          Paste your Kit form URL into NEXT_PUBLIC_KIT_FORM_ACTION to connect
+          this.
         </p>
       ) : null}
       <p className="privacy-link">

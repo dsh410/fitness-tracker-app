@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Tracker",
-  description: "A public personal weight tracker.",
+  description: "A public personal progress tracker.",
 };
 
 export default function RootLayout({

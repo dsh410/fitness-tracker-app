@@ -13,19 +13,21 @@ export default function PrivacyPage() {
       </p>
       <h1>Privacy</h1>
       <p>
-        This site is a public personal weight log. The numbers on the chart
-        come from a file in a public GitHub repo, so anyone can see them.
+        This site is a public personal weight log. The numbers come from a
+        file in a public GitHub repo, so anyone can see them.
       </p>
       <p>
-        If you subscribe, your email is sent to the newsletter tool connected
-        to the form (Kit, Buttondown, or MailerLite). It is used only to send
-        updates about this project. There are no accounts on this site.
+        If you subscribe, your email goes to Kit and is stored on Kit&apos;s
+        servers, not in this repo. It is used only for a monthly update about
+        where the numbers are and what I&apos;m building next. Email address
+        only — no name, no weight, no health questions. There are no accounts
+        on this site.
       </p>
       <p>
-        Links from social bios may include a source tag such as{" "}
-        <code>?s=tt</code>, <code>?s=ig</code>, <code>?s=yt</code>, or{" "}
-        <code>?s=fb</code>. That tag is used to see which bio a visit came
-        from. Vercel Web Analytics also records page views.
+        Page visits are counted with cookie-free Vercel Web Analytics. Links
+        from social bios may include <code>?s=tt</code>, <code>?s=ig</code>,{" "}
+        <code>?s=yt</code>, or <code>?s=fb</code> so I can see which bio a
+        visit came from. Analytics never records your weight or form input.
       </p>
     </main>
   );
