@@ -3,9 +3,10 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 
-// Kit form action from .env.local, e.g.
-// https://app.convertkit.com/forms/YOUR_FORM_ID/subscriptions
-const kitAction = process.env.NEXT_PUBLIC_KIT_FORM_ACTION;
+// Pulled from kit.html. Override with NEXT_PUBLIC_KIT_FORM_ACTION if the form changes.
+const kitAction =
+  process.env.NEXT_PUBLIC_KIT_FORM_ACTION ||
+  "https://app.kit.com/forms/9877380/subscriptions";
 
 export default function SubscribeForm() {
   const [status, setStatus] = useState<"idle" | "need-provider">("idle");
