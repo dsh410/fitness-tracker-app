@@ -29,5 +29,5 @@ export function introCopy(age: number | null = AGE): string {
     age == null
       ? "I'm a web developer."
       : `I'm a ${age}-year-old web developer.`;
-  return `${who} I started at 480 pounds with type 2 diabetes. I'm logging every weigh-in here, publicly, so I can't quietly quit. No plan to sell you, no program, no advice — just the numbers as they happen.`;
+  return `${who} I started at ${START_WEIGHT} pounds with type 2 diabetes. I'm logging every weigh-in here, publicly, so I can't quietly quit. No program, no advice — just the numbers. I might sell a paid version later. This log stays public either way.`;
 }
