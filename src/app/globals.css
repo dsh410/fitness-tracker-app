@@ -1,0 +1,174 @@
+:root {
+  color-scheme: dark;
+  --bg: #0e1014;
+  --card: #16181d;
+  --text: #e8eefc;
+  --muted: #8b93a7;
+  --line: #2a2e38;
+  --accent: #e8eefc;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+}
+
+a {
+  color: var(--text);
+}
+
+.site-header {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem 0;
+  font-weight: 650;
+}
+
+.site-header a {
+  text-decoration: none;
+}
+
+.page {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.big-number {
+  margin: 0.25rem 0 0;
+  font-size: clamp(3.5rem, 12vw, 5.5rem);
+  line-height: 1;
+  font-weight: 650;
+  letter-spacing: -0.04em;
+}
+
+.delta {
+  margin: 0.85rem 0 1.75rem;
+  color: var(--muted);
+}
+
+.delta strong {
+  color: var(--text);
+  font-weight: 650;
+}
+
+.toggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.toggle button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.toggle button.is-active {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+.chart {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.75rem 0.5rem 0.25rem;
+}
+
+.csv {
+  display: inline-block;
+  margin: 1.25rem 0 2.5rem;
+  color: var(--muted);
+}
+
+.subscribe h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+.subscribe label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-bottom: 0.35rem;
+}
+
+.subscribe-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.subscribe input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.7rem 0.8rem;
+  font: inherit;
+}
+
+.subscribe button {
+  border: 0;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 8px;
+  padding: 0.7rem 0.95rem;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.subscribe-note,
+.privacy-link {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.privacy-link {
+  margin-top: 0.75rem;
+}
+
+.legal h1 {
+  font-size: 1.75rem;
+}
+
+.legal p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.legal code {
+  color: var(--text);
+  font-size: 0.9em;
+}
+
+@media (max-width: 520px) {
+  .subscribe-row {
+    flex-direction: column;
+  }
+}
