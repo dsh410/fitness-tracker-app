@@ -1,3 +1,5 @@
 [
-  { "date": "2026-09-06", "weight": 483.2, "moved": true }
+  { "date": "2026-09-01", "weight": 483.2, "moved": true },
+  { "date": "2026-09-02", "weight": 479.2, "moved": true },
+  { "date": "2026-09-03", "weight": 477.4, "moved": true }
 ]
