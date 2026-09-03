@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState, type MouseEvent } from "react";
 import { track } from "@vercel/analytics";
 import { makeWeightCsvUrl } from "@/lib/csv";
@@ -12,8 +11,7 @@ import {
 } from "@/lib/rolling";
 import type { SourceTag } from "@/lib/source";
 import SubscribeForm from "./SubscribeForm";
-
-const WeightChart = dynamic(() => import("./WeightChart"), { ssr: false });
+import WeightChart from "./WeightChart";
 
 type TrackerProps = {
   data: WeighIn[];
@@ -21,14 +19,16 @@ type TrackerProps = {
 };
 
 function formatPounds(n: number) {
-  return n.toLocaleString("en-US", {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  });
+  // toFixed is the same on the server and in the browser.
+  // toLocaleString can differ by machine locale and cause a hydration mismatch.
+  return n.toFixed(1);
 }
 
 export default function Tracker({ data, source }: TrackerProps) {
   const [n, setN] = useState(WINDOW_7_DAY);
+  // Recharts measures the window size, so it cannot run during SSR.
+  // First paint (server + client) is an empty box; the chart mounts after.
+  const [chartReady, setChartReady] = useState(false);
 
   const series = useMemo(() => rolling(data, n), [data, n]);
   const currentAvg = series.at(-1)?.avg ?? 0;
@@ -45,6 +45,10 @@ export default function Tracker({ data, source }: TrackerProps) {
     link.click();
     URL.revokeObjectURL(url);
   }
+
+  useEffect(() => {
+    setChartReady(true);
+  }, []);
 
   useEffect(() => {
     if (source) {
@@ -78,7 +82,9 @@ export default function Tracker({ data, source }: TrackerProps) {
         </button>
       </div>
 
-      <WeightChart data={series} />
+      <div className="chart" role="img" aria-label="Weight over time">
+        {chartReady ? <WeightChart data={series} /> : null}
+      </div>
 
       <a className="csv" href="#download-csv" download="weight.csv" onClick={downloadCsv}>
         Download CSV

@@ -96,6 +96,7 @@ a {
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 0.75rem 0.5rem 0.25rem;
+  min-height: 280px;
 }
 
 .csv {

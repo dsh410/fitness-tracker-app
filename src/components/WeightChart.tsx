@@ -25,7 +25,6 @@ function formatTick(date: string) {
 
 export default function WeightChart({ data }: WeightChartProps) {
   return (
-    <div className="chart" role="img" aria-label="Weight over time">
       <ResponsiveContainer width="100%" height={280}>
         <LineChart data={data} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
           <CartesianGrid stroke="rgba(255, 255, 255, 0.06)" vertical={false} />
@@ -74,6 +73,5 @@ export default function WeightChart({ data }: WeightChartProps) {
           />
         </LineChart>
       </ResponsiveContainer>
-    </div>
   );
 }
