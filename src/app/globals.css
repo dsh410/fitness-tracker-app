@@ -184,15 +184,18 @@ a {
   flex-wrap: wrap;
   gap: 0.75rem 1.25rem;
   margin-top: 2.5rem;
-  color: var(--muted);
 }
 
 .platforms a {
-  color: var(--muted);
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  font-weight: 650;
 }
 
-.platform-pending {
-  color: var(--line);
+.platforms a:hover,
+.platforms a:focus {
+  color: #ffffff;
 }
 
 .legal h1 {
