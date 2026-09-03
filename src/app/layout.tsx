@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Analytics } from "@vercel/analytics/next";
+import { introCopy } from "@/lib/config";
 import "./globals.css";
 
+const intro = introCopy();
+
 export const metadata: Metadata = {
-  title: "Tracker",
-  description: "A public personal progress tracker.",
+  title: intro,
+  description: intro,
+  openGraph: {
+    title: intro,
+    description: intro,
+  },
 };
 
 export default function RootLayout({

@@ -13,8 +13,8 @@ export default function PrivacyPage() {
       </p>
       <h1>Privacy</h1>
       <p>
-        This site is a public personal weight log. The numbers come from a
-        file in a public GitHub repo, so anyone can see them.
+        This site is a public personal weight log. The numbers are fetched
+        from a published Google Sheet, so anyone with the link can see them.
       </p>
       <p>
         If you subscribe, your email goes to Kit and is stored on Kit&apos;s

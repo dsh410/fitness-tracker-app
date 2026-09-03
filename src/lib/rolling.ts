@@ -14,7 +14,7 @@ export const WINDOW_4_WEEK = 4;
 
 /**
  * Rolling average of `weight` over the last `n` points (or fewer at the start).
- * Copied from the MVP spec so GitHub edits to data.json show up the same way.
+ * Copied from the MVP spec. Window size is weigh-ins, not calendar days.
  */
 export function rolling(data: WeighIn[], n: number): WeighInWithAvg[] {
   return data.map((d, i) => {

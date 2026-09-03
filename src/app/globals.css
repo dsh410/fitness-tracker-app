@@ -42,52 +42,60 @@ a {
   padding: 2.5rem 1.25rem 4rem;
 }
 
-.hero {
-  margin-bottom: 2rem;
+.intro {
+  margin: 0 0 1.75rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.55;
 }
 
-.eyebrow {
-  margin: 0;
+.shot {
+  display: grid;
+  grid-template-columns: 1fr 1.7fr 1fr;
+  align-items: end;
+  gap: 0.75rem;
+}
+
+.shot-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.shot-label {
   color: var(--muted);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
 }
 
-.big-number {
-  margin: 0.15rem 0 0;
-  font-size: clamp(4.75rem, 20vw, 8rem);
-  line-height: 0.9;
+.shot-value {
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
   font-weight: 700;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
+  line-height: 0.95;
 }
 
-.big-number .unit {
-  margin-left: 0.22em;
-  font-size: 0.28em;
-  font-weight: 650;
-  letter-spacing: 0.04em;
-  color: var(--muted);
-  vertical-align: 0.55em;
+.shot-now .shot-value {
+  font-size: clamp(3.4rem, 14vw, 6.25rem);
 }
 
-.delta {
-  margin: 1rem 0 0;
-  font-size: 1.15rem;
-  color: var(--muted);
-}
-
-.delta strong {
+.shot-story {
+  margin: 1rem 0 2rem;
   color: var(--text);
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
+  font-size: 1.15rem;
+  font-weight: 650;
+}
+
+.load-error {
+  color: #f2643b;
 }
 
 .toggle {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.25rem;
+  margin: 1rem 0 0;
 }
 
 .toggle button {
@@ -171,6 +179,22 @@ a {
   margin-top: 0.75rem;
 }
 
+.platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-top: 2.5rem;
+  color: var(--muted);
+}
+
+.platforms a {
+  color: var(--muted);
+}
+
+.platform-pending {
+  color: var(--line);
+}
+
 .legal h1 {
   font-size: 1.75rem;
 }
@@ -186,6 +210,10 @@ a {
 }
 
 @media (max-width: 520px) {
+  .shot {
+    grid-template-columns: 1fr;
+  }
+
   .subscribe-row {
     flex-direction: column;
   }
